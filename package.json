@@ -1,0 +1,22 @@
+{
+  "name": "agenda-pontal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild src/main.jsx --bundle --format=iife --outfile=dist/app.js --loader:.jsx=jsx --jsx=automatic --minify",
+    "dev": "esbuild src/main.jsx --bundle --format=iife --outfile=dist/app.js --loader:.jsx=jsx --jsx=automatic --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.8",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Agenda · Jardins do Pontal</title>
+
+  <!-- vira "aplicativo" na tela inicial do celular (PWA) -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#1E4230" />
+
+  <!-- icones -->
+  <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+  <!-- abrir em tela cheia (sem barra do navegador) no Android e no iPhone -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Agenda Pontal" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./config.js"></script>
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./dist/app.js"></script>
+</body>
+</html>
