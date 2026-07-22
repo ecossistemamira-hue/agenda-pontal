@@ -147,7 +147,7 @@ function Contato({ tel }) {
   return (
     <span className="flex items-center gap-2 flex-wrap">
       <span className="text-sm" style={{ color:C.terra }}>{tel}</span>
-      {telSuspeito(tel) && <span className="text-[10px] font-bold" style={{ color:C.alerta }}>⚠ nº incompleto?</span>}
+      {telSuspeito(tel) && <span className="text-[13px] font-bold" style={{ color:C.alerta }}>⚠ nº incompleto?</span>}
       <a href={`https://wa.me/${dig}`} target="_blank" rel="noreferrer" title="WhatsApp"
         className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
         style={{ background:"#3B8A4E" }}>W</a>
@@ -219,11 +219,11 @@ function CamposCliente({ f, setF, clientes }) {
         <input className={inp} style={bs} value={f.nome||""} onChange={set("nome")} placeholder="Nome do cliente" /></label>
       <label className="text-xs font-semibold" style={lbl}>Telefone
         <input className={inp} style={bs} value={f.tel||""} onChange={set("tel")} placeholder="(33) 99999-9999" />
-        {telSuspeito(f.tel) && <span className="text-[10px] font-bold" style={{ color:C.alerta }}>⚠ telefone parece incompleto — confira o número</span>}
+        {telSuspeito(f.tel) && <span className="text-[13px] font-bold" style={{ color:C.alerta }}>⚠ telefone parece incompleto — confira o número</span>}
       </label>
       {sugestoes.length > 0 && (
         <div className="rounded-lg p-2 flex flex-col gap-1" style={{ background:"#F7ECCF" }}>
-          <span className="text-[10px] font-bold uppercase" style={{ color:"#7A5A12" }}>Já cadastrado — tocar para usar:</span>
+          <span className="text-[13px] font-bold uppercase" style={{ color:"#7A5A12" }}>Já cadastrado — tocar para usar:</span>
           {sugestoes.map((c) => (
             <button key={c.id} onClick={()=>setF({ ...f, clienteId:c.id })}
               className="text-left text-xs font-semibold rounded px-2 py-1.5" style={{ background:"#fff", color:C.ink }}>
@@ -301,7 +301,7 @@ function FormCliente({ inicial, onSalvar, onCancelar }) {
           <input className={inp} style={bs} value={f.nome||""} onChange={set("nome")} /></label>
         <label className="text-xs font-semibold" style={lbl}>Telefone
           <input className={inp} style={bs} value={f.t||""} onChange={set("t")} />
-          {telSuspeito(f.t) && <span className="text-[10px] font-bold" style={{ color:C.alerta }}>⚠ telefone parece incompleto</span>}
+          {telSuspeito(f.t) && <span className="text-[13px] font-bold" style={{ color:C.alerta }}>⚠ telefone parece incompleto</span>}
         </label>
         <label className="text-xs font-semibold" style={lbl}>Como conheceu
           <select className={inp} style={bs} value={f.origem||""} onChange={set("origem")}>
@@ -374,7 +374,7 @@ function CardVisita({ v, c, h, podeVenda, nomeCorretor, onStatus, onEditar, onRe
             {v.h && <span className="font-bold mr-1.5" style={{ color:C.verde }}>{v.h}</span>}
             {c.nome || <em className="opacity-50">sem nome</em>}
           </div>
-          {v.corretor && <div className="text-[11px]" style={{ color:"#7C8674" }}>corretor: {nomeCorretor(v.corretor)}</div>}
+          {v.corretor && <div className="text-[13px]" style={{ color:"#7C8674" }}>corretor: {nomeCorretor(v.corretor)}</div>}
         </button>
         <Badge s={v.situacao} onClick={()=>setAberto(!aberto)} />
       </div>
@@ -382,18 +382,18 @@ function CardVisita({ v, c, h, podeVenda, nomeCorretor, onStatus, onEditar, onRe
         <div className="flex flex-wrap gap-1.5 py-1">
           {SITUACOES.map((s) => (
             <button key={s} onClick={()=>{ onStatus(s); setAberto(false); }}
-              className="px-2 py-1 rounded-md text-[11px] font-semibold"
+              className="px-2 py-1 rounded-md text-[13px] font-semibold"
               style={{ background: s===v.situacao ? ST[s].dot : ST[s].bg, color: s===v.situacao ? "#fff" : ST[s].fg }}>
               {s}
             </button>
           ))}
           {podeVenda && (
             <button onClick={()=>{ onVender(); setAberto(false); }}
-              className="px-2 py-1 rounded-md text-[11px] font-bold"
+              className="px-2 py-1 rounded-md text-[13px] font-bold"
               style={{ background:ST.VENDEU.bg, color:ST.VENDEU.fg }}>VENDEU 💰</button>
           )}
           <button onClick={()=>{ onReagendar(); setAberto(false); }}
-            className="px-2 py-1 rounded-md text-[11px] font-bold"
+            className="px-2 py-1 rounded-md text-[13px] font-bold"
             style={{ background:"#E1E5DA", color:C.ink }}>↻ Fechar e reagendar</button>
         </div>
       )}
@@ -408,7 +408,7 @@ function CardVisita({ v, c, h, podeVenda, nomeCorretor, onStatus, onEditar, onRe
             style={{ background:"#E3E4F5", color:"#3B3E8F" }}>✓ Confirmada</button>
         </div>
       )}
-      {pend && <div className="text-[11px] font-bold" style={{ color:C.alerta }}>Visita passou — marque o que aconteceu</div>}
+      {pend && <div className="text-[13px] font-bold" style={{ color:C.alerta }}>Visita passou — marque o que aconteceu</div>}
     </div>
   );
 }
@@ -511,7 +511,7 @@ function Agenda({ dados, acoes, perfil }) {
       )}
       {grupos.map((g) => (
         <div key={g.k || "semdata"} className="flex flex-col gap-2">
-          <div className="text-[11px] font-bold uppercase tracking-widest pt-1"
+          <div className="text-[13px] font-bold uppercase tracking-widest pt-1"
             style={{ color: g.k===h ? C.verde : "#7C8674", fontFamily:"'Archivo', sans-serif" }}>
             {g.k ? `${diaSemana(g.k)} · ${fmtData(g.k)}${g.k===h ? " · HOJE" : g.k===am ? " · AMANHÃ" : ""}` : "Sem data marcada"}
           </div>
@@ -527,7 +527,7 @@ function Agenda({ dados, acoes, perfil }) {
       ))}
 
       <button onClick={()=>setEdit({ d:h, h:"", clienteId:null, nome:"", tel:"", origem:"", corretor: perfil.papel==="corretor" ? perfil.id : "", situacao:"AGENDADA", obs:"" })}
-        className="fixed bottom-5 right-5 rounded-full px-5 py-3.5 text-white font-bold text-sm shadow-lg z-40"
+        className="fixed bottom-24 right-5 rounded-full px-6 py-4 text-white font-bold text-base shadow-lg z-40"
         style={{ background:C.verde }}>+ Nova visita</button>
 
       {edit && (
@@ -607,7 +607,7 @@ function Clientes({ dados, acoes, perfil }) {
                 {i.vendas.length > 0 && <span className="ml-1.5">💰</span>}
               </span>
               {ult ? <Badge s={ult.situacao} /> :
-                <span className="text-[11px] shrink-0 font-semibold" style={{ color:"#8A55B0" }}>sem visita</span>}
+                <span className="text-[13px] shrink-0 font-semibold" style={{ color:"#8A55B0" }}>sem visita</span>}
             </div>
             <div className="text-xs flex flex-wrap gap-x-3" style={{ color:"#7C8674" }}>
               {c.t && <span style={{ color:C.terra }}>{c.t}</span>}
@@ -623,7 +623,7 @@ function Clientes({ dados, acoes, perfil }) {
       )}
 
       <button onClick={()=>setEditCli({ nome:"", t:"", origem:"", obs:"" })}
-        className="fixed bottom-5 right-5 rounded-full px-5 py-3.5 text-white font-bold text-sm shadow-lg z-40"
+        className="fixed bottom-24 right-5 rounded-full px-6 py-4 text-white font-bold text-base shadow-lg z-40"
         style={{ background:C.verde }}>+ Novo cliente</button>
 
       {selC && (
@@ -655,7 +655,7 @@ function Clientes({ dados, acoes, perfil }) {
 
             {selInfo.vendas.length > 0 && (
               <div className="flex flex-col gap-1.5">
-                <div className="text-[11px] font-bold uppercase tracking-widest" style={{ color:C.ouro }}>Compras</div>
+                <div className="text-[13px] font-bold uppercase tracking-widest" style={{ color:C.ouro }}>Compras</div>
                 {selInfo.vendas.map((vd) => (
                   <button key={vd.id} onClick={()=>podeVenda && setEditVenda({ ...vd, clienteFixo:true })}
                     className="rounded-lg p-2.5 text-left text-xs font-semibold"
@@ -668,7 +668,7 @@ function Clientes({ dados, acoes, perfil }) {
             )}
 
             <div className="flex flex-col gap-1.5">
-              <div className="text-[11px] font-bold uppercase tracking-widest" style={{ color:"#7C8674" }}>
+              <div className="text-[13px] font-bold uppercase tracking-widest" style={{ color:"#7C8674" }}>
                 Histórico de visitas ({selInfo.visitas.length})
               </div>
               {selInfo.visitas.length === 0 && (
@@ -683,7 +683,7 @@ function Clientes({ dados, acoes, perfil }) {
                       {v.d ? `${fmtData(v.d)}${v.h ? " · "+v.h : ""}` : "sem data"}
                       {v.corretor && <span className="font-normal" style={{ color:"#7C8674" }}> · {nomeCorretor(v.corretor)}</span>}
                     </div>
-                    {v.obs && <div className="text-[11px] truncate" style={{ color:"#7C8674" }}>{v.obs}</div>}
+                    {v.obs && <div className="text-[13px] truncate" style={{ color:"#7C8674" }}>{v.obs}</div>}
                   </div>
                   <Badge s={v.situacao} />
                 </button>
@@ -728,11 +728,11 @@ function Vendas({ dados, acoes }) {
       <div className="grid grid-cols-2 gap-2">
         <div className="rounded-xl p-3" style={{ background:C.verdeEsc }}>
           <div className="text-2xl font-bold text-white" style={{ fontFamily:"'Archivo', sans-serif" }}>{vendas.length}</div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color:"#9DBFA6" }}>chácaras vendidas</div>
+          <div className="text-[13px] font-semibold uppercase tracking-wide" style={{ color:"#9DBFA6" }}>chácaras vendidas</div>
         </div>
         <div className="rounded-xl p-3" style={{ background:C.ouro }}>
           <div className="text-2xl font-bold text-white" style={{ fontFamily:"'Archivo', sans-serif" }}>{fmtR$(total)}</div>
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-white opacity-80">valor total</div>
+          <div className="text-[13px] font-semibold uppercase tracking-wide text-white opacity-80">valor total</div>
         </div>
       </div>
       {vendas.length === 0 && (
@@ -758,7 +758,7 @@ function Vendas({ dados, acoes }) {
         );
       })}
       <button onClick={()=>setEdit({ clienteId:null, nome:"", tel:"", origem:"", d:hoje(), ch:"", vl:"", corretor:"", obs:"" })}
-        className="fixed bottom-5 right-5 rounded-full px-5 py-3.5 text-white font-bold text-sm shadow-lg z-40"
+        className="fixed bottom-24 right-5 rounded-full px-6 py-4 text-white font-bold text-base shadow-lg z-40"
         style={{ background:C.ouro }}>+ Nova venda</button>
       {edit && (
         <FormVenda inicial={edit} clientes={dados.clientes} perfis={dados.perfis}
@@ -953,14 +953,14 @@ function Relatorio({ dados, onPdf, onImportar }) {
         {cards.map(([lab2, val, cor]) => (
           <div key={lab2} className="rounded-xl p-3" style={{ background:C.card, border:`1px solid ${C.linha}` }}>
             <div className="text-xl font-bold leading-tight" style={{ color:cor, fontFamily:"'Archivo', sans-serif" }}>{val}</div>
-            <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color:"#7C8674" }}>{lab2}</div>
+            <div className="text-[13px] font-semibold uppercase tracking-wide" style={{ color:"#7C8674" }}>{lab2}</div>
           </div>
         ))}
       </div>
 
       {porCorretor.length > 0 && (
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-widest mb-2"
+          <div className="text-[13px] font-bold uppercase tracking-widest mb-2"
             style={{ color:"#7C8674", fontFamily:"'Archivo', sans-serif" }}>Por corretor (no período)</div>
           <div className="rounded-xl overflow-x-auto" style={{ border:`1px solid ${C.linha}` }}>
             <table className="w-full text-xs" style={{ background:C.card }}>
@@ -988,7 +988,7 @@ function Relatorio({ dados, onPdf, onImportar }) {
       )}
 
       <div>
-        <div className="text-[11px] font-bold uppercase tracking-widest mb-2"
+        <div className="text-[13px] font-bold uppercase tracking-widest mb-2"
           style={{ color:"#7C8674", fontFamily:"'Archivo', sans-serif" }}>Mês a mês (histórico completo)</div>
         <div className="rounded-xl overflow-x-auto" style={{ border:`1px solid ${C.linha}` }}>
           <table className="w-full text-xs" style={{ background:C.card }}>
@@ -1047,7 +1047,7 @@ function Relatorio({ dados, onPdf, onImportar }) {
       {msgImport && (
         <div className="text-xs font-semibold rounded-lg px-3 py-2" style={{ background:"#E4EDE2", color:C.verdeEsc }}>{msgImport}</div>
       )}
-      <p className="text-[10px] leading-snug" style={{ color:"#7C8674" }}>
+      <p className="text-[13px] leading-snug" style={{ color:"#7C8674" }}>
         “Importar dados” aceita o backup do app antigo (artifact) ou o arquivo <b>dados-planilha.json</b> — registros repetidos
         são atualizados, nada é apagado. Rode uma vez só, na primeira configuração.
       </p>
@@ -1070,7 +1070,7 @@ function Equipe({ dados, acoes, perfil }) {
     <div className="flex flex-col gap-4">
       {msg && <div className="text-xs font-semibold rounded-lg px-3 py-2" style={{ background:"#E4EDE2", color:C.verdeEsc }}>{msg}</div>}
       <div>
-        <div className="text-[11px] font-bold uppercase tracking-widest mb-2"
+        <div className="text-[13px] font-bold uppercase tracking-widest mb-2"
           style={{ color:"#7C8674", fontFamily:"'Archivo', sans-serif" }}>Equipe</div>
         <div className="flex flex-col gap-2">
           {dados.perfis.map((p) => (
@@ -1088,7 +1088,7 @@ function Equipe({ dados, acoes, perfil }) {
             </div>
           ))}
         </div>
-        <p className="text-[11px] leading-snug mt-2" style={{ color:"#7C8674" }}>
+        <p className="text-[13px] leading-snug mt-2" style={{ color:"#7C8674" }}>
           Para <b>adicionar</b> alguém: painel do Supabase → Authentication → Users → “Add user” (marque
           “Auto Confirm User”). A pessoa aparece aqui no primeiro acesso, como corretor — ajuste o papel acima.
           Para <b>trocar a senha</b> de alguém: mesmo lugar, no menu do usuário.
@@ -1097,7 +1097,7 @@ function Equipe({ dados, acoes, perfil }) {
 
       {lixeira.length > 0 && (
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-widest mb-2"
+          <div className="text-[13px] font-bold uppercase tracking-widest mb-2"
             style={{ color:"#7C8674", fontFamily:"'Archivo', sans-serif" }}>Lixeira (últimos 30 dias)</div>
           <div className="flex flex-col gap-1.5">
             {lixeira.map((e) => (
@@ -1112,11 +1112,11 @@ function Equipe({ dados, acoes, perfil }) {
       )}
 
       <div>
-        <div className="text-[11px] font-bold uppercase tracking-widest mb-2"
+        <div className="text-[13px] font-bold uppercase tracking-widest mb-2"
           style={{ color:"#7C8674", fontFamily:"'Archivo', sans-serif" }}>Atividade recente</div>
         <div className="flex flex-col gap-1">
           {dados.log.slice(0,30).map((l) => (
-            <div key={l.id ?? l.ts+l.tx} className="text-[11px] px-1" style={{ color:"#57614F" }}>
+            <div key={l.id ?? l.ts+l.tx} className="text-[13px] px-1" style={{ color:"#57614F" }}>
               <span className="font-semibold" style={{ color:"#7C8674" }}>{fmtTs(l.ts)}</span> · <b>{l.u}</b> {l.tx}
             </div>
           ))}
@@ -1124,7 +1124,7 @@ function Equipe({ dados, acoes, perfil }) {
         </div>
       </div>
 
-      <p className="text-[11px] leading-snug" style={{ color:"#7C8674" }}>
+      <p className="text-[13px] leading-snug" style={{ color:"#7C8674" }}>
         <b>Gestor</b>: acesso total — vendas, relatório, equipe, lixeira. <b>Corretor</b>: Agenda e Clientes, registra a
         venda (com chácara e valor), mas não vê os painéis de Vendas, Relatório e Equipe. <b>Atendente</b>: agenda,
         confirma e atualiza visitas e clientes; não registra vendas nem vê valores.
@@ -1180,7 +1180,7 @@ function Login() {
         </div>
         <h1 className="text-white font-extrabold text-2xl tracking-tight text-center"
           style={{ fontFamily:"'Archivo', sans-serif", fontStretch:"112%" }}>JARDINS DO PONTAL</h1>
-        <p className="text-center text-[10px] font-semibold tracking-[0.3em] mb-8" style={{ color:"#9DBFA6" }}>
+        <p className="text-center text-[13px] font-semibold tracking-[0.3em] mb-8" style={{ color:"#9DBFA6" }}>
           AGENDA DE VISITAS</p>
         <div className="flex flex-col gap-3">
           <input placeholder="e-mail" type="email" autoCapitalize="none" className="rounded-lg px-3 py-2.5 text-sm"
@@ -1417,6 +1417,7 @@ export default function App() {
   };
 
   const sair = () => db().auth.signOut();
+  const confirmarSair = () => { if (window.confirm("Deseja sair do aplicativo?")) sair(); };
 
   if (!configurado) return <Configurar />;
   if (sessao === undefined) return (
@@ -1440,48 +1441,49 @@ export default function App() {
   }
 
   const abas = gestor
-    ? [["agenda","Agenda"],["clientes","Clientes"],["vendas","Vendas"],["relatorio","Relatório"],["equipe","Equipe"]]
-    : [["agenda","Agenda"],["clientes","Clientes"]];
+    ? [["agenda","Agenda","cal"],["clientes","Clientes","users"],["vendas","Vendas","coin"],["relatorio","Relatório","chart"],["equipe","Equipe","team"]]
+    : [["agenda","Agenda","cal"],["clientes","Clientes","users"]];
+  const tituloAba = (abas.find(([k])=>k===aba)||[])[1] || "";
 
   return (
     <div className="min-h-screen" style={{ background:C.papel }}>
-      <header className="sticky top-0 z-40 px-4 pb-0" style={{ background:C.verdeEsc, paddingTop:"calc(env(safe-area-inset-top) + 16px)" }}>
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background:C.papel }}>
-                <img src="./logo.svg" alt="" className="w-8" />
-              </div>
-              <h1 className="text-white font-extrabold text-lg tracking-tight leading-tight"
-                style={{ fontFamily:"'Archivo', sans-serif", fontStretch:"112%" }}>
-                JARDINS DO PONTAL
-                <span className="block text-[10px] font-semibold tracking-[0.25em]" style={{ color:"#9DBFA6" }}>
-                  AGENDA DE VISITAS
-                </span>
-              </h1>
+      <header className="sticky top-0 z-40 px-4" style={{ background:C.verdeEsc, paddingTop:"calc(env(safe-area-inset-top) + 14px)", paddingBottom:"12px" }}>
+        <div className="max-w-2xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-11 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background:C.papel }}>
+              <img src="./logo.svg" alt="" className="w-8" />
             </div>
-            <div className="text-right">
-              <div className="text-[10px] font-semibold" style={{ color: salvo==="erro" ? "#F0A8A0" : "#9DBFA6" }}>
-                {salvo==="salvando" ? "salvando…" : salvo==="erro" ? "erro ao salvar" : "sincronizado ✓"}
-              </div>
-              <button onClick={()=>setSenhaAberta(true)} className="text-[11px] font-bold mr-2" style={{ color:"#B9CFC0" }}>
-                {perfil.nome}</button>
-              <button onClick={sair} className="text-[11px] font-bold" style={{ color:"#B9CFC0" }}>· sair</button>
-            </div>
+            <h1 className="text-white font-extrabold text-lg tracking-tight leading-tight"
+              style={{ fontFamily:"'Archivo', sans-serif", fontStretch:"112%" }}>
+              JARDINS DO PONTAL
+              <span className="block text-[13px] font-semibold tracking-[0.22em]" style={{ color:"#9DBFA6" }}>
+                AGENDA DE VISITAS
+              </span>
+            </h1>
           </div>
-          <nav className="flex gap-0.5 mt-3 overflow-x-auto">
-            {abas.map(([k, lab]) => (
-              <button key={k} onClick={()=>setAba(k)}
-                className="px-3.5 py-2 rounded-t-lg text-sm font-semibold whitespace-nowrap"
-                style={ aba===k ? { background:C.papel, color:C.verdeEsc } : { color:"#B9CFC0" }}>
-                {lab}
-              </button>
-            ))}
-          </nav>
+          <div className="text-right">
+            <div className="text-[14px] font-semibold mb-0.5" style={{ color: salvo==="erro" ? "#F0A8A0" : "#9DBFA6" }}>
+              {salvo==="salvando" ? "salvando…" : salvo==="erro" ? "erro ao salvar" : "tudo salvo ✓"}
+            </div>
+            <button onClick={()=>setSenhaAberta(true)} className="text-[15px] font-bold py-1" style={{ color:"#DCE7DE" }}>
+              {perfil.nome}</button>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-4 pb-24">
+      <main className="max-w-2xl mx-auto px-4 pt-4 pb-28">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h2 className="font-extrabold text-2xl" style={{ color:C.verdeEsc, fontFamily:"'Archivo', sans-serif" }}>{tituloAba}</h2>
+            {aba==="relatorio" && (
+              <div className="text-[15px] font-semibold" style={{ color:C.verde }}>números e PDF</div>
+            )}
+          </div>
+          <button onClick={confirmarSair} className="flex items-center gap-2 text-[16px] font-bold px-4 rounded-xl"
+            style={{ color:C.verde, background:"#E4EDE2", minHeight:"48px" }}>
+            <IconeAba nome="exit" cor={C.verde} /> Sair
+          </button>
+        </div>
         {aba==="agenda" && <Agenda dados={dados} acoes={acoes} perfil={perfil} />}
         {aba==="clientes" && <Clientes dados={dados} acoes={acoes} perfil={perfil} />}
         {gestor && aba==="vendas" && <Vendas dados={dados} acoes={acoes} />}
@@ -1489,7 +1491,37 @@ export default function App() {
         {gestor && aba==="equipe" && <Equipe dados={dados} acoes={acoes} perfil={perfil} />}
       </main>
 
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex"
+        style={{ background:"#FFFFFF", borderTop:"1px solid "+C.linha, paddingBottom:"env(safe-area-inset-bottom)" }}>
+        <div className="max-w-2xl mx-auto w-full flex">
+          {abas.map(([k, lab, ic]) => {
+            const on = aba===k;
+            return (
+              <button key={k} onClick={()=>setAba(k)}
+                className="relative flex-1 flex flex-col items-center justify-center gap-1 pt-3 pb-2.5"
+                style={{ color: on ? C.verdeEsc : "#8A9487", background: on ? "#EAF1E8" : "transparent", minHeight:"64px" }}>
+                {on && <span className="absolute top-0 rounded-b-full" style={{ width:"44px", height:"4px", background:C.ouro }} />}
+                <IconeAba nome={ic} cor={on ? C.ouro : "#8A9487"} />
+                <span className="text-[14px]" style={{ fontWeight: on ? 800 : 600 }}>{lab}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
       {senhaAberta && <MinhaSenha onFechar={()=>setSenhaAberta(false)} />}
     </div>
   );
+}
+
+/* ============ ícones do menu (SVG simples, sem dependências) ============ */
+function IconeAba({ nome, cor="#1E4230" }) {
+  const p = { width:26, height:26, viewBox:"0 0 24 24", fill:"none", stroke:cor, strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" };
+  if (nome==="cal") return (<svg {...p}><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>);
+  if (nome==="users") return (<svg {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>);
+  if (nome==="coin") return (<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M14.5 9a2.5 2 0 0 0-2.5-1.5c-1.4 0-2.5.7-2.5 1.8 0 2.7 5 1.3 5 4 0 1.2-1.2 1.9-2.5 1.9A2.7 2 0 0 1 9.3 15M12 6v1.5M12 16.5V18"/></svg>);
+  if (nome==="chart") return (<svg {...p}><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>);
+  if (nome==="team") return (<svg {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><circle cx="19" cy="8" r="2.2"/><path d="M23 21v-1.5a3 3 0 0 0-2.5-2.9"/></svg>);
+  if (nome==="exit") return (<svg {...p}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>);
+  return null;
 }
