@@ -22,7 +22,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="./config.js"></script>
-  <style>body { font-family: 'Inter', sans-serif; }</style>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    /* piso de legibilidade: nada de letra miúda, mesmo nas classes pequenas do Tailwind */
+    .text-xs { font-size: 13px !important; line-height: 1.35 !important; }
+    .text-sm { font-size: 15px !important; line-height: 1.45 !important; }
+    button { touch-action: manipulation; }
+  </style>
 </head>
 <body>
   <div id="root"></div>
