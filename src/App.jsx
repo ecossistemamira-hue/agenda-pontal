@@ -132,11 +132,19 @@ function calcPorCorretor(dados, de, ate) {
 /* ============ componentes pequenos ============ */
 function Badge({ s, onClick }) {
   const c = ST[s] || { bg:"#EEE", fg:"#555", dot:"#999" };
-  return (
-    <button onClick={onClick} style={{ background:c.bg, color:c.fg }}
+  if (!onClick) return (
+    <span style={{ background:c.bg, color:c.fg }}
       className="px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide flex items-center gap-1.5 shrink-0">
       <span className="w-1.5 h-1.5 rounded-full" style={{ background:c.dot }} />
       {s || "—"}
+    </span>
+  );
+  return (
+    <button onClick={onClick} style={{ background:c.bg, color:c.fg, border:`1.5px solid ${c.dot}`, minHeight:"40px" }}
+      className="px-3 rounded-lg text-[13px] font-bold tracking-wide flex items-center gap-1.5 shrink-0">
+      <span className="w-2 h-2 rounded-full" style={{ background:c.dot }} />
+      {s || "—"}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </button>
   );
 }
@@ -158,19 +166,35 @@ function Contato({ tel }) {
   );
 }
 
-function BotaoConfirmar({ rotulo, aviso = "Confirmar?", onOk, className, style }) {
-  const [arm, setArm] = useState(false);
-  useEffect(() => {
-    if (!arm) return;
-    const t = setTimeout(()=>setArm(false), 3500);
-    return ()=>clearTimeout(t);
-  }, [arm]);
+/* aviso grande no meio da tela, no lugar da caixinha padrão do navegador */
+function Confirmar({ titulo, texto, rotuloSim, corSim, onSim, onNao }) {
   return (
-    <button onClick={() => { if (arm) { setArm(false); onOk(); } else setArm(true); }}
-      className={className}
-      style={arm ? { ...style, background:C.alerta, color:"#fff" } : style}>
-      {arm ? aviso : rotulo}
-    </button>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center px-6" style={{ background:"rgba(30,45,28,.6)" }}>
+      <div className="w-full max-w-sm rounded-2xl p-6 text-center shadow-xl" style={{ background:C.papel }}>
+        <div className="font-bold text-[20px] leading-snug" style={{ color:C.verdeEsc, fontFamily:"'Archivo', sans-serif" }}>{titulo}</div>
+        {texto && <div className="text-[15px] mt-2" style={{ color:"#57614F" }}>{texto}</div>}
+        <div className="flex flex-col gap-2.5 mt-5">
+          <button onClick={onSim} className="w-full rounded-xl text-white font-bold text-[16px]"
+            style={{ background:corSim||C.alerta, minHeight:"52px" }}>{rotuloSim}</button>
+          <button onClick={onNao} className="w-full rounded-xl font-bold text-[16px]"
+            style={{ background:"#E1E5DA", color:C.ink, minHeight:"52px" }}>Voltar</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BotaoConfirmar({ rotulo, aviso = "Tem certeza?", onOk, className, style }) {
+  const [aberto, setAberto] = useState(false);
+  return (
+    <>
+      <button onClick={()=>setAberto(true)} className={className} style={style}>{rotulo}</button>
+      {aberto && (
+        <Confirmar titulo={aviso} texto="Esta ação não pode ser desfeita."
+          rotuloSim={`Sim, ${rotulo.toLowerCase()}`}
+          onSim={()=>{ setAberto(false); onOk(); }} onNao={()=>setAberto(false)} />
+      )}
+    </>
   );
 }
 
@@ -379,22 +403,31 @@ function CardVisita({ v, c, h, podeVenda, nomeCorretor, onStatus, onEditar, onRe
         <Badge s={v.situacao} onClick={()=>setAberto(!aberto)} />
       </div>
       {aberto && (
-        <div className="flex flex-wrap gap-1.5 py-1">
+        <div className="rounded-xl overflow-hidden" style={{ border:`1px solid ${C.linha}`, background:"#FFFFFF" }}>
+          <div className="px-3 py-2 text-[13px] font-bold" style={{ background:"#F0EEE6", color:"#6B7263" }}>
+            O que aconteceu com esta visita? Toque para escolher:
+          </div>
           {SITUACOES.map((s) => (
             <button key={s} onClick={()=>{ onStatus(s); setAberto(false); }}
-              className="px-2 py-1 rounded-md text-[13px] font-semibold"
-              style={{ background: s===v.situacao ? ST[s].dot : ST[s].bg, color: s===v.situacao ? "#fff" : ST[s].fg }}>
+              className="w-full flex items-center gap-2.5 px-3 text-left text-[15px] font-semibold"
+              style={{ minHeight:"48px", color:ST[s].fg, background: s===v.situacao ? ST[s].bg : "#FFFFFF", borderTop:`1px solid ${C.linha}` }}>
+              <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background:ST[s].dot }} />
               {s}
+              {s===v.situacao && <span className="ml-auto text-[17px] font-bold">✓</span>}
             </button>
           ))}
           {podeVenda && (
             <button onClick={()=>{ onVender(); setAberto(false); }}
-              className="px-2 py-1 rounded-md text-[13px] font-bold"
-              style={{ background:ST.VENDEU.bg, color:ST.VENDEU.fg }}>VENDEU 💰</button>
+              className="w-full flex items-center gap-2.5 px-3 text-left text-[15px] font-bold"
+              style={{ minHeight:"48px", background:ST.VENDEU.bg, color:ST.VENDEU.fg, borderTop:`1px solid ${C.linha}` }}>
+              💰 VENDEU
+            </button>
           )}
           <button onClick={()=>{ onReagendar(); setAberto(false); }}
-            className="px-2 py-1 rounded-md text-[13px] font-bold"
-            style={{ background:"#E1E5DA", color:C.ink }}>↻ Fechar e reagendar</button>
+            className="w-full flex items-center gap-2.5 px-3 text-left text-[15px] font-bold"
+            style={{ minHeight:"48px", background:"#E1E5DA", color:C.ink, borderTop:`1px solid ${C.linha}` }}>
+            ↻ Fechar e marcar nova data
+          </button>
         </div>
       )}
       <Contato tel={c.t} />
@@ -492,21 +525,35 @@ function Agenda({ dados, acoes, perfil }) {
       )}
       <input value={busca} onChange={(e)=>setBusca(e.target.value)} placeholder="Buscar nome, telefone ou observação…"
         className="w-full rounded-lg border px-3 py-2.5 text-sm bg-white" style={bs} />
-      <div className="flex gap-1.5 flex-wrap">
-        {chips.map(([k, lab]) => (
-          <button key={k} onClick={()=>{ setFiltro(k); setBusca(""); }}
-            className="px-3 py-1.5 rounded-full text-xs font-semibold"
-            style={ filtro===k && !busca
-              ? { background:C.verdeEsc, color:"#fff" }
-              : { background:"#E1E5DA", color:C.ink }}>
-            {lab}
-          </button>
-        ))}
+      <div className="flex gap-2 flex-wrap">
+        {chips.map(([k, lab]) => {
+          const on = filtro===k && !busca;
+          return (
+            <button key={k} onClick={()=>{ setFiltro(k); setBusca(""); }}
+              className="px-4 rounded-full text-[14px] font-bold"
+              style={ on
+                ? { background:C.verdeEsc, color:"#fff", minHeight:"44px" }
+                : { background:"#E1E5DA", color:C.ink, minHeight:"44px" }}>
+              {on ? "✓ " : ""}{lab}
+            </button>
+          );
+        })}
       </div>
 
       {grupos.length === 0 && (
-        <div className="text-center py-10 text-sm" style={{ color:"#7C8674" }}>
-          Nenhuma visita aqui. Toque em “+ Nova visita” para agendar.
+        <div className="text-center rounded-xl px-6 py-10" style={{ background:C.card, border:`1px dashed ${C.linha}` }}>
+          <div className="text-[36px] mb-2">📅</div>
+          <div className="text-[16px] font-bold" style={{ color:C.ink }}>
+            {busca.trim() ? "Nenhuma visita encontrada nesta busca." : "Nenhuma visita aqui."}
+          </div>
+          {busca.trim() ? (
+            <div className="text-[15px] mt-1" style={{ color:"#7C8674" }}>Confira se o nome ou telefone foi digitado certo.</div>
+          ) : (
+            <div className="text-[15px] mt-1 leading-snug" style={{ color:"#7C8674" }}>
+              Para agendar, toque no botão verde<br/>
+              <b style={{ color:C.verde }}>+ Nova visita</b>, ali embaixo à direita.
+            </div>
+          )}
         </div>
       )}
       {grupos.map((g) => (
@@ -619,7 +666,14 @@ function Clientes({ dados, acoes, perfil }) {
         );
       })}
       {lista.length === 0 && (
-        <div className="text-center py-10 text-sm" style={{ color:"#7C8674" }}>Nenhum cliente aqui.</div>
+        <div className="text-center rounded-xl px-6 py-10" style={{ background:C.card, border:`1px dashed ${C.linha}` }}>
+          <div className="text-[36px] mb-2">👥</div>
+          <div className="text-[16px] font-bold" style={{ color:C.ink }}>Nenhum cliente aqui.</div>
+          <div className="text-[15px] mt-1 leading-snug" style={{ color:"#7C8674" }}>
+            Para cadastrar, toque no botão verde<br/>
+            <b style={{ color:C.verde }}>+ Novo cliente</b>, ali embaixo à direita.
+          </div>
+        </div>
       )}
 
       <button onClick={()=>setEditCli({ nome:"", t:"", origem:"", obs:"" })}
@@ -1250,6 +1304,16 @@ export default function App() {
     refetchTimer.current = setTimeout(recarregar, 700);
   };
 
+  /* avisa quando a internet cai e recarrega quando volta */
+  const [online, setOnline] = useState(navigator.onLine);
+  useEffect(() => {
+    const ficouOnline = () => { setOnline(true); agendarRefetch(); };
+    const ficouOffline = () => setOnline(false);
+    window.addEventListener("online", ficouOnline);
+    window.addEventListener("offline", ficouOffline);
+    return () => { window.removeEventListener("online", ficouOnline); window.removeEventListener("offline", ficouOffline); };
+  }, []);
+
   useEffect(() => {
     if (!sessao?.user) { setDados(null); setPerfil(null); return; }
     let ativo = true;
@@ -1417,7 +1481,7 @@ export default function App() {
   };
 
   const sair = () => db().auth.signOut();
-  const confirmarSair = () => { if (window.confirm("Deseja sair do aplicativo?")) sair(); };
+  const [sairAberto, setSairAberto] = useState(false);
 
   if (!configurado) return <Configurar />;
   if (sessao === undefined) return (
@@ -1462,8 +1526,8 @@ export default function App() {
             </h1>
           </div>
           <div className="text-right">
-            <div className="text-[14px] font-semibold mb-0.5" style={{ color: salvo==="erro" ? "#F0A8A0" : "#9DBFA6" }}>
-              {salvo==="salvando" ? "salvando…" : salvo==="erro" ? "erro ao salvar" : "tudo salvo ✓"}
+            <div className="text-[14px] font-semibold mb-0.5" style={{ color: (!online || salvo==="erro") ? "#F0A8A0" : "#9DBFA6" }}>
+              {!online ? "sem internet ⚠" : salvo==="salvando" ? "salvando…" : salvo==="erro" ? "erro ao salvar" : "tudo salvo ✓"}
             </div>
             <button onClick={()=>setSenhaAberta(true)} className="text-[15px] font-bold py-1" style={{ color:"#DCE7DE" }}>
               {perfil.nome}</button>
@@ -1472,6 +1536,12 @@ export default function App() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 pt-4 pb-28">
+        {!online && (
+          <div className="rounded-xl px-4 py-3 mb-3 text-[15px] font-semibold leading-snug"
+            style={{ background:"#FBEAE7", color:C.alerta, border:"1px solid #E7B8B0" }}>
+            ⚠ Sem internet. Dá para ver os dados, mas o que for alterado agora <u>não será salvo</u> — faça a alteração de novo quando a conexão voltar.
+          </div>
+        )}
         <div className="flex items-center justify-between mb-3">
           <div>
             <h2 className="font-extrabold text-2xl" style={{ color:C.verdeEsc, fontFamily:"'Archivo', sans-serif" }}>{tituloAba}</h2>
@@ -1479,7 +1549,7 @@ export default function App() {
               <div className="text-[15px] font-semibold" style={{ color:C.verde }}>números e PDF</div>
             )}
           </div>
-          <button onClick={confirmarSair} className="flex items-center gap-2 text-[16px] font-bold px-4 rounded-xl"
+          <button onClick={()=>setSairAberto(true)} className="flex items-center gap-2 text-[16px] font-bold px-4 rounded-xl"
             style={{ color:C.verde, background:"#E4EDE2", minHeight:"48px" }}>
             <IconeAba nome="exit" cor={C.verde} /> Sair
           </button>
@@ -1510,6 +1580,11 @@ export default function App() {
       </nav>
 
       {senhaAberta && <MinhaSenha onFechar={()=>setSenhaAberta(false)} />}
+      {sairAberto && (
+        <Confirmar titulo="Deseja sair do aplicativo?"
+          texto="Para entrar de novo, você vai precisar do seu e-mail e senha."
+          rotuloSim="Sim, sair" onSim={sair} onNao={()=>setSairAberto(false)} />
+      )}
     </div>
   );
 }
